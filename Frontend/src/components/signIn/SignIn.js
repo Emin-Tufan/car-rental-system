@@ -12,16 +12,16 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useEffect, useState} from "react";
-import Loading from "../loading/Loading";
-
-
+import {useState} from "react";
+import {getBackendUrl} from "../../api";
+import axios from 'axios';
 
 const theme = createTheme();
 
 export default function SignIn() {
-    const [isLoading,setIsLoading]=useState(true)
+
     const [isRemember,setIsRemember]=useState(false)
+    const [axiosCondition]=useState(false)
     const [formValues,setFormValues]=useState({
         email:'',
         password:'',
@@ -29,6 +29,19 @@ export default function SignIn() {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(formValues.email,formValues.password,isRemember)
+
+        if (axiosCondition){
+            console.log("Gönderilemedi")
+        }else{
+            axios
+                .post(getBackendUrl.login, formValues)
+                .then((response) => {
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     };
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -110,8 +123,6 @@ export default function SignIn() {
                 </Box>
             </Container>
         </ThemeProvider>
-
-            }
         </div>
     );
 }

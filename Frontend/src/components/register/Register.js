@@ -5,9 +5,7 @@ import {Select} from "@mui/material";
 import {MenuItem} from "@mui/material";
 import Textarea from '@mui/joy/Textarea';
 import Button from '@mui/joy/Button';
-import {getBackendUrl} from "../../api/api";
-import FormHelperText from '@mui/material/FormHelperText';
-import FormControl from '@mui/material/FormControl';
+import {getBackendUrl} from "../../api";
 
 const Register = () => {
 
@@ -16,12 +14,12 @@ const Register = () => {
     const [identityError,setIdentityError]=useState(false)
     const [phoneError,setPhoneError]=useState(false)
     const [emailError,setEmailError]=useState(false)
-    const [passwordNullError,setPasswordNullError]=useState(false)
-    const [passwordNullError2,setPasswordNullError2]=useState(false)
-    const [passwordSameError,setPasswordSameError]=useState(false)
+    const [passwordError,setPasswordError]=useState(false)
     const [genderError,setGenderError]=useState(false)
     const [addressError,setAddressError]=useState(false)
     const [axiosCondition,setAxiosCondition]=useState(false)
+
+    
 
   const [formValues, setFormValues] = useState({
     name: '',
@@ -31,7 +29,7 @@ const Register = () => {
     email: '',
     password: '',
     passwordValidation:'',
-    gender: '',
+    gender: 'Cinsiyet',
       address:''
   });
   const handleChange = (e) => {
@@ -44,75 +42,37 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (formValues.name.trim().length <=0) {
+    if (formValues.name.trim().length <=0){
         setNameError(true)
         setAxiosCondition(true)
-    }else {
-        setNameError(false)
-        setAxiosCondition(false)
     }
       if (formValues.surName.trim().length <=0){
           setSurnameError(true)
           setAxiosCondition(true)
-      }else{
-          setSurnameError(false)
-          setAxiosCondition(false)
       }
       if (formValues.identityNo.trim().length !=11){
           setIdentityError(true)
           setAxiosCondition(true)
-      }else{
-          setIdentityError(false)
-          setAxiosCondition(false)
       }
       if (formValues.phone.trim().length !=11){
           setPhoneError(true)
           setAxiosCondition(true)
-      }else{
-          setPhoneError(false)
-          setAxiosCondition(false)
       }
       if (!formValues.email.includes("@")){
           setEmailError(true)
           setAxiosCondition(true)
-      }else{
-          setEmailError(false)
-          setAxiosCondition(false)
       }
-      if (formValues.password != formValues.passwordValidation ){
-          setPasswordSameError(true)
+      if (formValues.password != formValues.passwordValidation || formValues.password.length ==0 ||formValues.passwordValidation.length ==0){
+          setPasswordError(true)
           setAxiosCondition(true)
-      }else{
-          setPasswordSameError(false)
-          setAxiosCondition(false)
-      }
-      if (formValues.password.length ==0 ){
-          setPasswordNullError(true)
-          setAxiosCondition(true)
-      }else{
-          setPasswordNullError(false)
-          setAxiosCondition(false)
-      }
-      if(formValues.passwordValidation.length ==0){
-          setPasswordNullError2(true)
-          setAxiosCondition(true)
-      }else{
-          setPasswordNullError2(false)
-          setAxiosCondition(false)
       }
       if (formValues.gender != "Erkek" && formValues.gender != "Kadın" ){
           setGenderError(true)
           setAxiosCondition(true)
-      }else{
-          setGenderError(false)
-          setAxiosCondition(false)
       }
       if (formValues.address.trim().length <=0){
           setAddressError(true)
           setAxiosCondition(true)
-      }else{
-          setAddressError(false)
-          setAxiosCondition(false)
       }
       if (axiosCondition){
           console.log("Gönderilemedi")
@@ -128,10 +88,9 @@ const Register = () => {
       }
   };
   return (
-      <div className="flex-col mt-16  gap-x-48  w-screen h-screen bg-gradient-to-tr from-gray-50 to-gray-100 justify-center items-stretch ">
-          <h1 className="flex justify-center items-end text-2xl pt-8">Kayıt Ol</h1>
-        <div className="flex gap-x-16 h-84 w-screen justify-center ">
-        <div className="flex flex-col mt-12 h-72 gap-4" >
+      <div className="flex-col  gap-x-48  w-screen h-screen bg-gradient-to-tr from-gray-50 to-gray-100 justify-center items-stretch ">
+        <div className="flex gap-x-16 mt-6 h-96 w-screen justify-center items-end ">
+        <div className="flex flex-col mt-16 h-72 gap-4" >
         <TextField
             required
             id="name"
@@ -141,7 +100,7 @@ const Register = () => {
             error={nameError}
             value={formValues.name}
             onChange={handleChange}
-            helperText={nameError ? "Ad boş olamaz" : ""}
+            
         />
         <TextField
             required
@@ -152,7 +111,6 @@ const Register = () => {
             variant="outlined"
             value={formValues.surName}
             onChange={handleChange}
-            helperText={surnameError ? "Soyad boş olamaz" : ""}
         />
           <TextField
               required
@@ -163,20 +121,18 @@ const Register = () => {
               variant="outlined"
               value={formValues.email}
               onChange={handleChange}
-              helperText={emailError ? "Geçersiz e-mail" : ""}
           />
           <TextField
               id="outlined-password-input"
               label="Şifre"
               type="password"
               name="password"
-              error={passwordNullError||passwordSameError}
+              error={passwordError}
               autoComplete="current-password"
               onChange={handleChange}
-              helperText={passwordSameError ? "Şifreler uyuşmuyor" :passwordNullError? "Şifre boş olamaz" :""}
           />
         </div>
-        <div className="flex flex-col mt-12 h-72 gap-4">
+        <div className="flex flex-col mt-16 h-72 gap-4">
           <TextField
               required
               id="identityNo"
@@ -185,7 +141,6 @@ const Register = () => {
               label="T.C Kimlik no"
               variant="outlined"
               error={identityError}
-              helperText={identityError ? "Geçersiz TC No":""}
               value={formValues.identityNo}
               onChange={handleChange}
           />
@@ -199,42 +154,35 @@ const Register = () => {
               variant="outlined"
               size="medium"
               value={formValues.phone}
-              helperText={phoneError ? "Geçersiz Cep Telefonu":""}
               onChange={handleChange}
           />
-            <FormControl sx={{  minWidth: 120 }} error>
-                <InputLabel style={!genderError ? {color:"grey",fontSize:"15px",padding:"3px"}:{color:"#d32f2f",fontSize:"15px"}}  id="demo-simple-select-required-label">Cinsiyet</InputLabel>
           <Select
               labelId="gender"
               id="gender"
               value={formValues.gender}
               label="Cinsiyet"
               name="gender"
-              style={!genderError ? {color:"grey",fontSize:"15px",height:"56px"}:{color:"#d32f2f",fontSize:"15px",height:"56px"}}
+              style={!genderError ? {color:"grey",fontSize:"15px"}:{color:"#d32f2f",fontSize:"15px"}}
               onChange={handleChange}
               error={genderError}
+              
           >
+            <MenuItem value="Cinsiyet">Cinsiyet</MenuItem>
             <MenuItem value="Erkek" >Erkek</MenuItem>
             <MenuItem value="Kadın">Kadın</MenuItem>
           </Select>
-            {genderError ? (
-                <FormHelperText>Bir seçim yapınız</FormHelperText>
-            ):""}
-            </FormControl>
           <TextField
               id="passwordValidation"
               label="Şifre (Tekrar)"
               type="password"
               name="passwordValidation"
               autoComplete="current-password"
-              error={passwordNullError2 || passwordSameError}
-              helperText={passwordSameError ? "Şifreler uyuşmuyor" :passwordNullError2? "Şifre boş olamaz" :""}
+              error={passwordError}
               onChange={handleChange}
           />
         </div>
         </div>
-          <div className={axiosCondition ?"flex justify-center mt-24":"flex justify-center "}>
-              <FormControl sx={{  minWidth: 120 }} error>
+          <div className="flex justify-center ">
               <Textarea
                   placeholder="Adresinizi giriniz"
                   minRows={3}
@@ -245,10 +193,6 @@ const Register = () => {
                   className="w-[455px]"
                   onChange={handleChange}
               />
-                  {addressError ? (
-                      <FormHelperText>Adres ekleyin</FormHelperText>
-                  ):""}
-              </FormControl>
           </div>
           <div className="flex justify-center mt-3">
               <Button

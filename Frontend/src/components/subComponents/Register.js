@@ -19,6 +19,8 @@ const Register = () => {
     const [addressError,setAddressError]=useState(false)
     const [axiosCondition,setAxiosCondition]=useState(false)
 
+    
+
   const [formValues, setFormValues] = useState({
     name: '',
     surName: '',
@@ -98,6 +100,7 @@ const Register = () => {
             error={nameError}
             value={formValues.name}
             onChange={handleChange}
+            
         />
         <TextField
             required
@@ -162,6 +165,7 @@ const Register = () => {
               style={!genderError ? {color:"grey",fontSize:"15px"}:{color:"#d32f2f",fontSize:"15px"}}
               onChange={handleChange}
               error={genderError}
+              
           >
             <MenuItem value="Cinsiyet">Cinsiyet</MenuItem>
             <MenuItem value="Erkek" >Erkek</MenuItem>

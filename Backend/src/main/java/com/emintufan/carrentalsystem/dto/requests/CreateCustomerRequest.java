@@ -28,6 +28,8 @@ public class CreateCustomerRequest {
     @Pattern(regexp = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$", message = "Invalid email format")
     private String email;
 
+    private String address;
+
 
     @Min(value = 8,message = "password must be greater than 8 characters !")
     private String password;

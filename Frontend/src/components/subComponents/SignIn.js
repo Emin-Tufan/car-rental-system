@@ -13,12 +13,15 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useState} from "react";
+import {getBackendUrl} from "../../api";
+import axios from 'axios';
 
 const theme = createTheme();
 
 export default function SignIn() {
 
     const [isRemember,setIsRemember]=useState(false)
+    const [axiosCondition]=useState(false)
     const [formValues,setFormValues]=useState({
         email:'',
         password:'',
@@ -26,6 +29,19 @@ export default function SignIn() {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log(formValues.email,formValues.password,isRemember)
+
+        if (axiosCondition){
+            console.log("Gönderilemedi")
+        }else{
+            axios
+                .post(getBackendUrl.login, formValues)
+                .then((response) => {
+                    console.log(response.data);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
     };
     const handleChange = (e) => {
         const { name, value } = e.target;

@@ -12,12 +12,15 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import Loading from "../loading/Loading";
+
+
 
 const theme = createTheme();
 
 export default function SignIn() {
-
+    const [isLoading,setIsLoading]=useState(true)
     const [isRemember,setIsRemember]=useState(false)
     const [formValues,setFormValues]=useState({
         email:'',
@@ -107,6 +110,8 @@ export default function SignIn() {
                 </Box>
             </Container>
         </ThemeProvider>
+
+            }
         </div>
     );
 }

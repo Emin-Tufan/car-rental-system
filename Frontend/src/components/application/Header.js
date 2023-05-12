@@ -2,10 +2,10 @@ import {Routes,Route,Link} from "react-router-dom";
 import {AiOutlineCar} from 'react-icons/ai'
 import {BiUser} from 'react-icons/bi'
 import {BiUserPlus} from 'react-icons/bi'
-import Home from './subComponents/Home'
-import Register from "./subComponents/Register";
-import SignIn from "./subComponents/SignIn";
-import ChangePasssword from "./subComponents/ChangePassword";
+import Home from '../home/Home'
+import Register from "../register/Register";
+import SignIn from "../signIn/SignIn";
+import ChangePasssword from "../changePassword/ChangePassword";
 
 export default function Header(){
 

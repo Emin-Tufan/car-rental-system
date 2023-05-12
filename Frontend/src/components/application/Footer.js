@@ -1,7 +1,7 @@
 
-import fb from '../images/Facebook-logo-blue-circle-large-transparent-png.png'
-import insta from '../images/iconmonstr-instagram-14-240.png'
-import tw from '../images/iconmonstr-twitter-4-240.png'
+import fb from '../../images/Facebook-logo-blue-circle-large-transparent-png.png'
+import insta from '../../images/iconmonstr-instagram-14-240.png'
+import tw from '../../images/iconmonstr-twitter-4-240.png'
 import {Routes,Route,Link,NavLink} from "react-router-dom";
 function Footer(){
 

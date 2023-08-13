@@ -166,6 +166,7 @@ public class VehicleControllerTest {
         verify(vehicleService,times(1)).deleteVehicle(vehicleId);
 
     }
+    @Test
     public void testDeleteVehicle_Failure() throws Exception {
         int vehicleId = 1;
         when(vehicleService.deleteVehicle(vehicleId)).thenReturn(false);
@@ -175,13 +176,14 @@ public class VehicleControllerTest {
         verify(vehicleService,times(1)).deleteVehicle(vehicleId);
 
     }
+    @Test
     public void testDeleteVehicle_ThrowException ()throws Exception {
         int vehicleId = 1;
         when(vehicleService.deleteVehicle(vehicleId)).thenThrow(new EntityExceptions("Vehicle Was Not Deleted!"));
         mockMvc.perform(delete("/vehicle/delete/{id}",vehicleId))
                 .andExpect(status().isNotFound())
                 .andExpect(status -> assertTrue(status.getResolvedException() instanceof  EntityExceptions))
-                .andExpect(status -> assertEquals(status.getResolvedException().getMessage(),new EntityExceptions("Vehicle Was Not Deleted!")))
+                .andExpect(status -> assertEquals(status.getResolvedException().getMessage(),new EntityExceptions("Vehicle Was Not Deleted!").getMessage()))
                 .andReturn();
         verify(vehicleService,times(1)).deleteVehicle(vehicleId);
     }

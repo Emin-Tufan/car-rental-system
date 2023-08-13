@@ -150,6 +150,7 @@ public class OfficeControllerTest {
         verify(officeService,times(1)).deleteOffice(vehicleId);
 
     }
+    @Test
     public void testDeleteOffice_Failure() throws Exception {
         int vehicleId = 1;
         when(officeService.deleteOffice(vehicleId)).thenReturn(false);
@@ -159,13 +160,14 @@ public class OfficeControllerTest {
         verify(officeService,times(1)).deleteOffice(vehicleId);
 
     }
+    @Test
     public void testDeleteOffice_ThrowException ()throws Exception {
         int vehicleId = 1;
         when(officeService.deleteOffice(vehicleId)).thenThrow(new EntityExceptions("Office Was Not Deleted!"));
         mockMvc.perform(delete("/office/delete/{id}",vehicleId))
                 .andExpect(status().isNotFound())
                 .andExpect(status -> assertTrue(status.getResolvedException() instanceof  EntityExceptions))
-                .andExpect(status -> assertEquals(status.getResolvedException().getMessage(),new EntityExceptions("Office Was Not Deleted!")))
+                .andExpect(status -> assertEquals(status.getResolvedException().getMessage(),new EntityExceptions("Office Was Not Deleted!").getMessage()))
                 .andReturn();
         verify(officeService,times(1)).deleteOffice(vehicleId);
     }
